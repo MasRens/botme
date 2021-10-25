@@ -1422,17 +1422,27 @@ ${shp} *Link :* ${res[0].link}
                      break
           case 'ytmp4':
                      if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
-                     if (args.length == 0) return reply(`Example: ${prefix + command} https://www.youtube.com/watch?v=qZIQAk-BUEc`)
-                     reply (mess.wait) 
-                     ini_link = args[0]
-                     get_result = await fetchJson(`https://api.lolhuman.xyz/api/ytvideo2?apikey=${lolkey}&url=${ini_link}`)
-                     get_result = get_result.result
-                     ini_txt = `${get_result.title} - ${get_result.size}`
-                     ini_buffer = await getBuffer(get_result.thumbnail)
-                     await Resta.sendMessage(from, ini_buffer, image, { quoted: mek, caption: ini_txt })
-                     get_audio = await getBuffer(get_result.link)
-                     await Resta.sendMessage(from, get_audio, video, { mimetype: 'video/mp4', filename: `${get_result.title}.mp4`, quoted: mek })
-                     limitAdd(sender, limit)
+                     if (args.length < 1) return reply(`Kirim perintah *${prefix}ytmp4 [linkYt]*`)
+                     if(!isUrl(args[0]) && !args[0].includes('youtu')) return reply(mess.error.Iv)
+                     teks = args.join(' ')
+                     reply(mess.wait)
+                     res = await y2mateV(teks).catch(e => {
+            reply('_[ ! ] Error Gagal Memasuki Web Y2mate_')
+})
+            result = `┏┉⌣ ┈̥-̶̯͡..̷̴✽̶┄┈┈┈┈┈┈┈┈┈┈┉┓
+┆ *YOUTUBE MP4*
+└┈┈┈┈┈┈┈┈┈┈┈⌣ ┈̥-̶̯͡..̷̴✽̶⌣ ✽̶
+
+*Data Berhasil Didapatkan!*
+✓ Title : ${res[0].judul}
+✓ Ext : MP4
+✓ Size : ${res[0].size}
+
+_Silahkan tunggu file media sedang dikirim mungkin butuh beberapa menit_`
+   
+                    sendFileFromUrl(res[0].thumb, image, {caption: result, quoted: mek}).then((lalu) => {
+                    sendFileFromUrl(res[0].link, video, {quoted: mek, mimetype: 'video/mp4', filename: res[0].output})
+                     })
                     .catch((err) => {
                      sendMess(ownerNumber[0], `${command} Error:` + err)
                      reply(mess.error.api)
