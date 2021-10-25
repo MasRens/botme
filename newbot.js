@@ -2778,7 +2778,6 @@ Alert!!! : ${res.desc}`))
 					    reply(mess.stick)
 						})
 					  .on('end', function () {
-					   console.log('Subrek Fernazer')
 					   konoy = fs.readFileSync(ran)
 					   Resta.sendMessage(from, konoy, sticker, {quoted: mek})
 					   fs.unlinkSync(media)
