@@ -1,1 +1,1 @@
-worker: node senku.js
+worker: npm start
