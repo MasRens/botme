@@ -45,6 +45,8 @@ const toMs = require("ms");
 const ms = require("parse-ms");
 const WAConnection = simple.WAConnection(_WAConnection);
 const { smsg } = require('./lib/simple.js')
+const Exif = require('./sticker/exif')
+const exif = new Exif()
 const { color, bgcolor } = require('./lib/color')
 const game = require("./lib/game");
 const premium = require("./lib/premium");
@@ -61,6 +63,8 @@ const { webp2mp4File} = require('./lib/webp2mp4')
 const { webp2gifFile } = require("./lib/gif.js")
 const tovid = require('./lib/tovideo')
 const hx = require('./lib/NOAMPI')
+const gore = require('./lib/gore')
+const scrapper = require('./lib/scrapper')
 const { lirikLagu } = require('./lib/lirik.js')
 const { wikiSearch } = require('./lib/wiki.js')
 const { herolist } = require('./lib/herolist.js')
@@ -328,6 +332,11 @@ Resta.on('group-participants-update', async (anu) => {
 		    const costum = (pesan, tipe, target, target2) => {
 			Resta.sendMessage(from, pesan, tipe, {quoted: { key: { fromMe: false, participant: `${target}`, ...(from ? { remoteJid: from } : {}) }, message: { conversation: `${target2}` }}})
 			}
+			const sendVideo = (url, capt) => {
+
+			Resta.sendMessage(from, url, video, {mimetype: "video/mp4", caption: capt, sendEphemeral: true, quoted: mek})
+
+		    }
 		    const sendmp3 = (teks) => {
 		    Resta.sendMessage(from, audio, mp3, {quoted: mek})
 		    }
@@ -500,9 +509,9 @@ mtk.splice(game.getMtkPosi(from, mtk), 1)
 }    
 if (game.isTebakLirik(from, tebaklirik)){
 if (chats.toLowerCase().includes(game.getJawabanTL(from, tebaklirik))){
-var htgml = randomNomor(100)
+var htgml = randomNomor(1000)
 addBalance(sender, htgml, balance)
-await reply(`𝐆𝐀𝐌𝐄 𝐓𝐄𝐁𝐀𝐊 𝐋𝐈𝐑𝐈𝐊
+await reply(`𝐆𝐀𝐌𝐄 𝐓𝐄𝐁𝐀𝐊 𝐋𝐈??𝐈𝐊
 *Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanTL(from, tebaklirik)}\n*Hadiah :* $${htgml}
 Ingin bermain lagi? kirim *${prefix}tebaklirik*`)
 tebaklirik.splice(game.getTLPosi(from, tebaklirik), 1)
@@ -510,7 +519,7 @@ tebaklirik.splice(game.getTLPosi(from, tebaklirik), 1)
 } 
 if (game.isSiapaAku(from, siapaaku)){
 if (chats.toLowerCase().includes(game.getJawabanSA(from, siapaaku))){
-var htgmu = randomNomor(100)
+var htgmu = randomNomor(1000)
 addBalance(sender, htgmu, balance)
 await reply(`𝐆𝐀𝐌𝐄 𝐒𝐈𝐀𝐏𝐀𝐊𝐀𝐇 𝐀𝐊𝐔
 *Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanSA(from, siapaaku)}\n*Hadiah :* $${htgmu}
@@ -520,7 +529,7 @@ siapaaku.splice(game.getSAPosi(from, siapaaku), 1)
 }
 if (game.isCaklontong(from, caklontong)){
 if (chats.toLowerCase().includes(game.getJawabanCL(from, caklontong))){
-var htgmu = randomNomor(100)
+var htgmu = randomNomor(1000)
 addBalance(sender, htgmu, balance)
 await reply(`𝐆𝐀𝐌𝐄 𝐒𝐈𝐀𝐏𝐀𝐊𝐀𝐇 𝐀𝐊𝐔
 *Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanCL(from, caklontong)}\n*Hadiah :* $${htgmu}
@@ -530,7 +539,7 @@ caklontong.splice(game.getCLPosi(from, caklontong), 1)
 }
 if (game.isSusunKata(from, susunkata)){
 if (chats.toLowerCase().includes(game.getJawabanSK(from, susunkata))){
-var htgmu = randomNomor(100)
+var htgmu = randomNomor(1000)
 addBalance(sender, htgmu, balance)
 await reply(`𝐆𝐀𝐌𝐄 𝐒𝐔𝐒𝐔𝐍 𝐊𝐀𝐓𝐀
 *Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanSK(from, susunkata)}\n*Hadiah :* $${htgmu}
@@ -540,7 +549,7 @@ susunkata.splice(game.getSKPosi(from, susunkata), 1)
 }
 if (game.isTebakKata(from, tebakkata)){
 if (chats.toLowerCase().includes(game.getJawabanTK(from, tebakkata))){
-var htgtk = randomNomor(100)
+var htgtk = randomNomor(1000)
 addBalance(sender, htgtk, balance)
 await reply(`𝐆𝐀𝐌𝐄 𝐓𝐄𝐁𝐀𝐊 𝐊𝐀𝐓𝐀
 *Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanTK(from, tebakkata)}\n*Hadiah :* $${htgtk}
@@ -550,7 +559,7 @@ tebakkata.splice(game.getTKPosi(from, tebakkata), 1)
 }
 if (game.isTebakJenaka(from, tebakjenaka)){
 if (chats.toLowerCase().includes(game.getJawabanTJ(from, tebakjenaka))){
-var htgtk = randomNomor(100)
+var htgtk = randomNomor(1000)
 addBalance(sender, htgtk, balance)
 await reply(`𝐆𝐀𝐌𝐄 𝐓𝐄𝐁𝐀𝐊 𝐉𝐄𝐍𝐀𝐊𝐀
 *Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanTJ(from, tebakjenaka)}\n*Hadiah :* $${htgtk}
@@ -560,7 +569,7 @@ tebakjenaka.splice(game.getTJPosi(from, tebakjenaka), 1)
 }
 if (game.isTebakKimia(from, tebakkimia)){
 if (chats.toLowerCase().includes(game.getJawabanTU(from, tebakkimia))){
-var reva = randomNomor(100)
+var reva = randomNomor(1000)
 addBalance(sender, reva, balance)
 await reply(`𝐆𝐀𝐌𝐄 𝐓𝐄𝐁𝐀𝐊 𝐔𝐍𝐒𝐔𝐑 𝐊𝐈𝐌𝐈𝐀
 *Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanTU(from, tebakkimia)}\n*Hadiah :* $${reva}
@@ -570,7 +579,7 @@ tebakkimia.splice(game.getTUPosi(from, tebakkimia), 1)
 }
 if (game.isTebakBendera(from, tebakbendera)){
 if (chats.toLowerCase().includes(game.getJawabanTB(from, tebakbendera))){
-var syahira = randomNomor(100)
+var syahira = randomNomor(1000)
 addBalance(sender, syahira, balance)
 await reply(`𝐆𝐀𝐌𝐄 𝐓𝐄𝐁𝐀𝐊 𝐁𝐄𝐍𝐃𝐄𝐑𝐀
 *Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanTB(from, tebakbendera)}\n*Hadiah :* $${syahira}
@@ -580,7 +589,7 @@ tebakbendera.splice(game.getTBPosi(from, tebakbendera), 1)
 }
 if (game.isTebakAnime(from, tebakanime)){
 if (chats.toLowerCase().includes(game.getJawabanTA(from, tebakanime))){
-var vinna = randomNomor(100)
+var vinna = randomNomor(1000)
 addBalance(sender, vinna, balance)
 await reply(`𝐆𝐀𝐌𝐄 𝐓𝐄𝐁𝐀𝐊 𝐀𝐍𝐈𝐌𝐄
 *Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanTA(from, tebakanime)}\n*Hadiah :* $${vinna}
@@ -590,7 +599,7 @@ tebakanime.splice(game.getTAPosi(from, tebakanime), 1)
 } 	        
 if (game.isTebakGambar(from, tebakgambar)){
 if (chats.toLowerCase().includes(game.getJawabanTG(from, tebakgambar))){
-var htgm = randomNomor(100)
+var htgm = randomNomor(1000)
 addBalance(sender, htgm, balance)
 await reply(`*Selamat jawaban kamu benar*\n*Jawaban :* ${game.getJawabanTG(from, tebakgambar)}\n*Hadiah :* $${htgm}\n\nIngin bermain lagi? kirim *${prefix}tebakgambar*`)
 tebakgambar.splice(game.getTGPosi(from, tebakgambar), 1)
@@ -846,11 +855,11 @@ const getLose = (sender, total) => {
             const isQuotedVideo = type === 'extendedTextMessage' && content.includes('videoMessage')
             const isQuotedSticker = type === 'extendedTextMessage' && content.includes('stickerMessage')
 			if (isCmd && !isGroup) {
-            addBalance(sender, randomNomor(20), balance)
+            addBalance(sender, randomNomor(30), balance)
 			console.log(color('[CMD]'), color(moment(mek.messageTimestamp * 1000).format('DD/MM/YYYY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`))
              }
             if (isCmd && isGroup) {
-            addBalance(sender, randomNomor(20), balance)
+            addBalance(sender, randomNomor(30), balance)
 			console.log(color('[CMD]'), color(moment(mek.messageTimestamp * 1000).format('DD/MM/YYYY HH:mm:ss'), 'yellow'), color(`${command} [${args.length}]`), 'from', color(pushname), 'in', color(groupName))
              }
          
@@ -956,19 +965,59 @@ teks += `   ${e+=1}. ${i}\n`
    }
 teks += ``
 sendButtonLoc(from,monospace(teks),'',`${fake}`,[
-{buttonId: `${prefix}owner`, buttonText: {displayText: '</OWNER'}, type: 1}, 
-{buttonId: `${prefix}donasi`, buttonText: {displayText: '</DONASI'}, type: 1}, 
+{buttonId: `${prefix}sewabot`, buttonText: {displayText: '</SEWABOT'}, type: 1}, 
+{buttonId: `${prefix}converter`, buttonText: {displayText: '</converter'}, type: 1}, 
 {buttonId: `${prefix}gruprwbot`, buttonText: {displayText: '</GRUP RW'}, type: 1}
 ],null,null,fakeimage,mek)
 break
+case 'converter':
+kamuss = `
+Hallo selamat Bagi Kak Mau converter saldo? ke apk lain @${sender.split("@")[0]}
+
+_Nerima converter payment_
+
+*Aplikasi*
+Ovo
+Dana 
+Gopay
+Paypal
+Shoope
+Linkaja
+Neo bank
+
+*Bank*
+Mandiri
+BNI
+BRI
+
+*Pulsa*
+Pulsa Tsel 
+rate 2.9%
+
+*HUBUNGI AJA KONTAK DI BAWAH INI*`
+reply (kamuss)
+sleep(200)
+      Resta.sendMessage(from, {displayname: "jeff", vcard: vcard}, MessageType.contact ,{ quoted : mek})
+     .then((res) => Resta.sendMessage(from, 'Nih kontak ownerku', text, {quoted: res}))
+      break
 case 'donasi':
 case 'sumbang':
 let buffer = fs.readFileSync('./src/donasi.jpg') 
 var mathu = await Resta.prepareMessage(from, buffer, MessageType.image)
 donasi = ` 
 ${shp} Saweria : https://saweria.co/RestaFvnky29
+Hallo kak mau donasi? 
 
-${shp} Pulsa : 6281232358627`
+${shp} Gopay : 083853152230
+${shp} Dana : 083853152230
+${shp} Bank Neo : 5859459124955179
+${shp} Mandiri : 1430024659599
+${shp} Pulsa : 083853152230
+
+_Biar Bot WhatsApp on selalu Dan update_
+_Biar bisa beli PC buat jalanin 5 bot_
+_biar bisa on 24 jam_
+_Terima Kasih Yang telah Donasi kakak_`
 const sendButLocation = [{buttonId:`${prefix}owner`,buttonText:{displayText:'📌𝐎𝐰𝐧𝐞𝐫'},type:1}]
                buttonsMessage = {
                contentText: `${donasi}`, 
@@ -980,19 +1029,60 @@ const sendButLocation = [{buttonId:`${prefix}owner`,buttonText:{displayText:'�
                break 
      case 'gruprwbot':
                geus = `
-♦️𝐑𝐰 𝐁𝐨𝐭𝐳𝐳♦#1
- https://chat.whatsapp.com/EryCzc6EI530q9qCXpM9b2
- ♦️𝐑𝐰 𝐁𝐨𝐭𝐳𝐳♦#2
- https://chat.whatsapp.com/CiVJyOE3gIrHodHiOusEBe
- ♦️𝐑𝐰 𝐁𝐨𝐭𝐳𝐳♦#3
- https://chat.whatsapp.com/BN7SUbLSmQs6syfNTCfP1x`
+♦️𝐑𝐰 𝐁𝐨𝐭𝐳𝐳♦#1 https://chat.whatsapp.com/CpeNsgdQw6VIT6nQGmSsVJ
+
+ ♦️𝐑𝐰 𝐁𝐨𝐭𝐳𝐳♦#2 https://chat.whatsapp.com/HX9RMRxPfeEJzz9bGUd1pl
+
+🏦 Grup Bisnis online untuk mendapatkan Cuan🏦
+Syarat mendapatkan Cuan ke Admin Grup
+https://chat.whatsapp.com/FnajFx6y1pZ4k2mG6SG2TE
+`
  reply (geus) 
  break
          case 'sc':
          case 'script':
          reply ('https://github.com/Restaa/whatsapp-bot-byRwbot') 
           break
-          
+          case 'sewabot':
+          case 'sewa':
+         textl = `
+ ᴡᴇʟᴄᴏᴍᴇ ᴛᴏ ʙᴏᴛ ᴡʜᴀᴛsᴀᴘᴘ
+ 
+• Hari = 3.000
+• Minggu = 5.000
+• Bulan = 10.000
+• Tahun = 50.000
+
+• Script = 100.000
+• Bot Pribadi = 25.000
+• Owner Bot = 30.000
+• Apk 18+ = 30.000 / No Vpn
+• Apk 18+ Vip = 100.000
+
+> Bot Pribadi Akan berjalan Dalam 1 Bulan Jika
+    Di Perpanjang 20.000
+ 
+> Owner Bot Akan Berjalan Dalam 1 Bulan Jika
+    Di Perpanjang 25.000
+    
+
+     RULES BOT
+1. Jangan Spam Bot
+Sanksi : WARN/SOFT BLOCK
+
+2. Jangan Telepon Bot.
+Sanksi : SOFT BLOCK
+
+3. Jangan Mengejek Bot.
+Sanksi : PERMANENT BLOCK
+
+4. Gpp Sc Gw Jelek Yg Penting
+Bot Gw Jalan Awokawoakak
+Jika Sudah Dipahami Rules-nya, Silakan Ketik #menu Untuk Memulai!
+
+ᴊɪᴋᴀ ᴍɪɴᴀᴛ ʙɪsᴀ ʜᴜʙᴜɴɢɪ ᴏᴡɴᴇʀ ʙᴏᴛ ᴅᴇɴɢᴀɴ ᴋᴇᴛɪᴋ #ᴏᴡɴᴇʀ`
+reply (textl) 
+break
 /*****************************PUNYA OWNER******************************/
            case 'owner': 
                     Resta.sendMessage(from, {displayname: "jeff", vcard: vcard}, MessageType.contact ,{ quoted : mek})
@@ -1252,7 +1342,6 @@ ${shp} *Link :* ${res[0].link}
                        limitAdd(sender, limit)
                        break
               case 'tiktoknowm':
-                     if(!isPremium && !isOwner )return reply(mess.only.prem)
                      if (!isUrl(args[0]) && !args[0].includes('tiktok.com')) return reply(aml.Iv)
                      if (args.length < 1) return reply('Link?')
                      lin = args[0]
@@ -1354,7 +1443,8 @@ ${shp} *Link :* ${res[0].link}
                        }
                        break
              case 'play':
-                     if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
+                      if (!isGroup) return reply(mess.only.group)
+                      if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
                       if (args.length < 1) return reply(`Kirim perintah *${prefix}play query`)
                       reply(mess.wait) 
                       let yut = await yts(q)
@@ -1383,7 +1473,7 @@ ${shp} *Link :* ${res[0].link}
                       const { dl_link, thumb, title, filesizeF, filesize } = res
                       axios.get(`https://tinyurl.com/api-create.php?url=${dl_link}`)
                      .then((a) => {
-                      if (Number(filesize) >= 30000) return sendMediaURL(from, thumb, `*P L A Y  M P 3*\n\n${shp} Title : ${title}\n${shp} Ext : MP3\n${shp} Filesize : ${filesizeF}\n${shp} Upload : ${yut.videos[0].ago}\n${shp} Views : ${yut.videos[0].views}\n${shp} Duration : ${yut.videos[0].timestamp}\n${shp} Link : ${a.data}\n\n_Untuk durasi lebih dari batas disajikan dalam bentuk link_`)
+                      if (Number(filesize) >= 10000) return sendMediaURL(from, thumb, `*P L A Y  M P 3*\n\n${shp} Title : ${title}\n${shp} Ext : MP3\n${shp} Filesize : ${filesizeF}\n${shp} Upload : ${yut.videos[0].ago}\n${shp} Views : ${yut.videos[0].views}\n${shp} Duration : ${yut.videos[0].timestamp}\n${shp} Link : ${a.data}\n\n_Untuk durasi lebih dari batas disajikan dalam bentuk link_`)
                       const captionis = `*P L A Y  M P 3*\n\n${shp} Title : ${title}\n${shp} Size : ${filesizeF}\n${shp} Views: ${yut.videos[0].views}\n${shp} Duration : ${yut.videos[0].timestamp}\n${shp} URL : ${yut.videos[0].url}\n\n*_Permintaan Anda Sedang Di Prosess!_*`
                       sendMediaURL(from, dl_link, '')
                       limitAdd(sender, limit)
@@ -1473,9 +1563,32 @@ _Silahkan tunggu file media sedang dikirim mungkin butuh beberapa menit_`
                      reply(mess.error)
                      }
                      break
-				case 'ig': 
-				case 'instagram':
-				case 'igdl':
+                 case 'randomgore':
+                 reply(mess.wait) 
+                 function random(list) {
+			     return list[Math.floor(Math.random() * list.length)]
+		          } 
+		        let querygore = random(['beheading', 'isis', 'suicide', 'execution', 'shoot', 'destroy', 'fight', 'kill', 'burn'])
+                 p = await gore.single(querygore)
+                 sendVideo(await getBuffer(p.data.video), `✅Sukses Download Random Gore
+•Judul: ${p.data.title}
+•Author: ${p.data.author}
+•Views: ${p.data.views}`)
+                 break
+      case 'listgore':
+     mk = `
+• beheading
+• isis
+• suicide
+• execution
+• shoot
+• destroy
+• fight
+• kill
+• burn`
+reply (mk)
+break
+	   case 'igstory': 
 	              if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
 	              if (args.length < 1) return reply(`Kirim perintah *${prefix}ig https://www.instagram.com/p/CQU21b0JKwq/*`) 
                   if (!isUrl(args[0]) && !args[0].includes('instagram.com')) return reply(aml.Iv)
@@ -1485,21 +1598,23 @@ _Silahkan tunggu file media sedang dikirim mungkin butuh beberapa menit_`
                   for(let i of result){
                   if(i.url.includes('mp4')){
                   let link = await getBuffer(i.url)
-                  Resta.sendMessage(from,link,video,{quoted: mek,caption: `Type : ${i.type}\n${fake}`})
+                  Resta.sendMessage(from,link,video,{quoted: mek,caption: `${fake}`}) 
                   limitAdd(sender, limit)
                   } else {
                   let link = await getBuffer(i.url)
-                  Resta.sendMessage(from,link,image,{quoted: mek,caption: `Type : ${i.type}\n${fake}`})
-                   limitAdd(sender, limit)
-                   }
-                   }
-                   })
+                  Resta.sendMessage(from,link,image,{quoted: mek,caption: `${fake}`}) 
+                  limitAdd(sender, limit)     
+                  }
+                  }
+                  });
                  break
-	   case 'igstory': 
+            case 'ig': 
+		    case 'instagram':
+	        case 'igdl':
 	              if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
-                  if(!q) return reply('*Username?*')
+	              if(!q) return reply(`Contah : ${prefix}ig https://www.instagram.com/reel/CXdsAg5DWTc/?utm_medium=copy_link`)
                   reply(mess.wait) 
-                  hx.igstory(q)
+                  hx.igdl(q)
                  .then(async(res)=> {
                   for(let i of res){
                   if(i.url.includes('mp4')){
@@ -1594,6 +1709,79 @@ _*Tunggu Proses Mengirim Media......*_`
                     await Resta.sendMessage(from, get_audio, audio, { mimetype: 'audio/mp4', filename: `${get_result.title}.mp3`, quoted: mek })
                     limitAdd(sender, limit)
                     break
+        case 'sound1':
+        case 'sound2':
+        case 'sound3':
+        case 'sound4':
+        case 'sound5':
+        case 'sound6':
+        case 'sound7':
+        case 'sound8':
+        case 'sound9':
+        case 'sound10':
+        case 'sound11':
+        case 'sound12':
+        case 'sound13':
+        case 'sound14':
+        case 'sound15':
+        case 'sound16':
+        case 'sound17':
+        case 'sound18':
+        case 'sound19':
+        case 'sound20':
+        case 'sound21':
+        case 'sound22':
+        case 'sound23':
+        case 'sound24':
+        case 'sound25':
+        case 'sound26':
+        case 'sound27':
+        case 'sound28':
+        case 'sound29':
+        case 'sound30':
+        case 'sound31':
+        case 'sound32':
+        case 'sound33':
+        case 'sound34':
+        case 'sound35':
+        case 'sound36':
+        case 'sound37':
+        case 'sound38':
+      case 'sound39':
+      case 'sound40':
+      case 'sound41':
+      case 'sound42':
+      case 'sound43':
+      case 'sound44':
+      case 'sound45':
+      case 'sound46':
+      case 'sound47':
+      case 'sound48':
+      case 'sound49':
+      case 'sound50':
+      case 'sound51':
+      case 'sound52':
+      case 'sound53':
+      case 'sound54':
+      case 'sound55':
+      case 'sound56':
+      case 'sound57':
+      case 'sound58':
+      case 'sound59':
+      case 'sound60':
+      case 'sound61':
+      case 'sound62':
+      case 'sound63':
+      case 'sound64':
+      case 'sound65':
+      case 'sound66':
+      case 'sound67':
+      case 'sound68':
+      case 'sound69':
+      case 'sound70':
+      omkeh = await getBuffer(`https://hansxd.nasihosting.com/sound/${command}.mp3`)
+      Resta.sendMessage(from, omkeh, MessageType.audio, { quoted: mek, mimetype: 'audio/mp4', ptt: true })
+      break
 /*****************************RANDOM TEXT*****************************/
            case 'quotes':
                      if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
@@ -1721,6 +1909,42 @@ _*Tunggu Proses Mengirim Media......*_`
                     limitAdd(sender, limit)
                     break
 /*****************************MENU MAKER******************************/
+          case 'wetglass':
+          case 'multicolor3d':
+          case 'watercolor':
+          case 'luxurygold':
+          case 'galaxywallpaper':
+          case 'lighttext':
+          case 'beautifulflower':
+          case 'puppycute':
+          case 'royaltext':
+          case 'heartshaped':
+          case 'birthdaycake':
+          case 'galaxystyle':
+          case 'hologram3d':
+          case 'greenneon':
+          case 'glossychrome':
+          case 'greenbush':
+          case 'metallogo':
+          case 'noeltext':
+          case 'glittergold':
+          case 'textcake':
+          case 'starsnight':
+          case 'wooden3d':
+          case 'textbyname':
+          case 'writegalacy':
+          case 'galaxybat':
+          case 'snow3d':
+          case 'birthdayday':
+          case 'goldplaybutton':
+          case 'silverplaybutton':
+          case 'freefire':
+          if (args.length == 0) return reply(`Teks Nya Mana ?\nContoh : ${prefix + command} Rw bot`)
+         ini_txt = args.join(" ")
+         getBuffer(`https://api.lolhuman.xyz/api/ephoto1/${command}?apikey=${lolkey}&text=${ini_txt}`).then((gambar) => {
+         Resta.sendMessage(from, gambar, image,  {caption: `${command}`, quoted : mek}) 
+          })
+         break
        case 'naruto':
                   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit)
                   if (!q) return reply('teksnya mana?')
@@ -2025,7 +2249,7 @@ ${anime.desc}\n\n*Link Batch* : ${anime.batch}\n*Link Download SD* : ${anime.bat
                       break;
            case "chara":
                   if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
-                  if (!q) return reply(`gambar apa?\n${prefix}chara itsmevall`);
+                  if (!q) return reply(`gambar apa?\n${prefix}chara Resta`);
                   let im = await hx.chara(q);
                   let acak = im[Math.floor(Math.random() * im.length)];
                   let li = await getBuffer(acak);
@@ -2144,6 +2368,21 @@ ${anime.desc}\n\n*Link Batch* : ${anime.batch}\n*Link Download SD* : ${anime.bat
                     console.log(res)
                     })
 		            break 
+	   case 'searchgore':
+                     if(!q) return reply(`Contoh : ${prefix}${command} killing`) 
+                     reply(mess.wait) 
+                     brien = (q) 
+			         gore.search(`${brien}`).then(res => {
+				     teks = '❉───────────❉\n'
+				     for (let Y of res.data){
+teks += `\n*RANDOM GORE*
+Title : ${Y.title}
+Label : ${Y.label}
+Link : ${Y.link}\n❉───────────❉`
+                    }
+					Resta.sendMessage(from, teks, text, {quoted: mek}) 
+                    })
+                 break
                case 'lirik':
                          if (isLimit(sender, isPremium, isOwner, limitCount, limit)) return reply(mess.limit) 
                          if(!q) return reply('lagu apa?')
@@ -2585,7 +2824,7 @@ Alert!!! : ${res.desc}`))
                         break
                  case 'join':
                  case 'join':
-                          if (!isOwner)return mentions(`Perintah ini Khusus owner`) 
+                          if (!isOwner) return reply(mess.only.owner)
                           if (args.length < 1) return reply(`Kirim perintah *${prefix}join* link grup`)
                           if (!isUrl(args[0]) && !args[0].includes('chat.whatsapp.com')) return reply(mess.error.Iv)
                           let code = args[0].replace('https://chat.whatsapp.com/', '')
@@ -2594,7 +2833,8 @@ Alert!!! : ${res.desc}`))
                            Resta.sendMessage(res.gid,`*Halo saya ${nama}!*\n_Saya di invit oleh @${sender.split("@")[0]} Untuk masuk ke dalam Group!_\n_Ketik ${prefix}menu untuk Melihat Fitur Bot!_\nJangan lupa Donasi`,text,{contextInfo:{mentionedJid:[sender]},quoted : mek})
                            reply(`_Succses Join Group!_`)
                             })
-                          .catch((err) => reply('Sukses Join')) 
+                          .then((res) => reply(jsonformat(res)))
+                          .catch((err) => reply(jsonformat(err)))
                            break
             case 'infoall':
                        if (!isGroupAdmins && !isOwner) return reply(mess.only.admin)
@@ -2727,7 +2967,7 @@ Alert!!! : ${res.desc}`))
                          reply(bi)
                          break
                case 'addbadword':
-                         if (!isGroupAdmins && !isOwner)return reply(mess.only.admin)
+                         if (!isOwner) return reply(mess.only.owner)
                          if (args.length < 1) return reply(`masukkan kata`)
                          if (isKasar(args[0].toLowerCase(), badword)) return reply(`Udah ada`)
                          addBadword(args[0].toLowerCase(), badword)
@@ -2757,6 +2997,85 @@ Alert!!! : ${res.desc}`))
                         }
                         break
 /*********************EMOJI*************/
+                case 'stickerwm':
+        case 'swm':
+        case 'take':
+        case 'takesticker':
+        case 'takestick': {
+                   if (args.length < 2) return reply(`Penggunaan ${command} nama|author`)
+                   let packname1 = q.split('|')[0] ? q.split('|')[0] : q
+                   let author1 = q.split('|')[1] ? q.split('|')[1] : ''
+                   if (isImage || isQuotedImage) {
+                   let encmedia = isQuotedImage ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
+                   let media = await Resta.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+                   exif.create(packname1, author1, `stickwm_${sender}`)
+                   await ffmpeg(`${media}`)
+                  .input(media)
+                  .on('start', function(cmd) {
+                   console.log(`Started : ${cmd}`)
+                    })
+                   .on('error', function(err) {
+                    console.log(`Error : ${err}`)
+                    fs.unlinkSync(media)
+                    reply(mess.stick) 
+                    })
+                   .on('end', function() {
+                    console.log('Finish')
+                    exec(`webpmux -set exif ./sticker/stickwm_${sender}.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
+                   if (error) return reply(mess.stick) 
+                     Resta.sendMessage(from, fs.readFileSync(`./sticker/${sender}.webp`), sticker, { quoted: mek })
+                     fs.unlinkSync(media)
+                     fs.unlinkSync(`./sticker/${sender}.webp`)
+                     fs.unlinkSync(`./sticker/stickwm_${sender}.exif`)
+                     })
+                     })
+                    .addOutputOptions([`-vcodec`, `libwebp`, `-vf`, `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
+                    .toFormat('webp')
+                    .save(`./sticker/${sender}.webp`)
+                     } else if ((isVideo && mek.message.videoMessage.fileLength < 10000000 || isQuotedVideo && mek.message.extendedTextMessage.contextInfo.quotedMessage.videoMessage.fileLength < 10000000)) {
+                     let encmedia = isQuotedVideo ? JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo : mek
+                     let media = await Resta.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+                     exif.create(packname1, author1, `stickwm_${sender}`)
+                    reply(mess.wait)
+                     await ffmpeg(`${media}`)
+                    .inputFormat(media.split('.')[4])
+                    .on('start', function(cmd) {
+                     console.log(`Started : ${cmd}`)
+                      })
+                    .on('error', function(err) {
+                     console.log(`Error : ${err}`)
+                     fs.unlinkSync(media)
+                     let tipe = media.endsWith('.mp4') ? 'video' : 'gif'
+                     reply(mess.stick) 
+                       })
+                      .on('end', function() {
+                       console.log('Finish')
+                       exec(`webpmux -set exif ./sticker/stickwm_${sender}.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
+                       if (error) return reply(mess.stick) 
+                       Resta.sendMessage(from, fs.readFileSync(`./sticker/${sender}.webp`), sticker, {quoted: mek })
+                       fs.unlinkSync(media)
+                       fs.unlinkSync(`./sticker/${sender}.webp`)
+                        fs.unlinkSync(`./sticker/stickwm_${sender}.exif`)
+                         })
+                         })
+                        .addOutputOptions([`-vcodec`, `libwebp`, `-vf`, `scale='min(320,iw)':min'(320,ih)':force_original_aspect_ratio=decrease,fps=15, pad=320:320:-1:-1:color=white@0.0, split [a][b]; [a] palettegen=reserve_transparent=on:transparency_color=ffffff [p]; [b][p] paletteuse`])
+                        .toFormat('webp')
+                        .save(`./sticker/${sender}.webp`)
+                         } else if (isQuotedSticker) {
+                         let encmedia = JSON.parse(JSON.stringify(mek).replace('quotedM', 'm')).message.extendedTextMessage.contextInfo
+                         let media = await Resta.downloadAndSaveMediaMessage(encmedia, `./sticker/${sender}`)
+                         exif.create(packname1, author1, `takestick_${sender}`)
+                         exec(`webpmux -set exif ./sticker/takestick_${sender}.exif ./sticker/${sender}.webp -o ./sticker/${sender}.webp`, async (error) => {
+                         if (error) return reply(mess.stick) 
+                         Resta.sendMessage(from, fs.readFileSync(`./sticker/${sender}.webp`), sticker, { quoted: mek })
+                         fs.unlinkSync(media)
+                         fs.unlinkSync(`./sticker/takestick_${sender}.exif`)
+                         })
+                         } else {
+                        reply(`Kirim gambar/video dengan caption ${prefix}stickerwm nama|author atau tag gambar/video yang sudah dikirim\nNote : Durasi video maximal 10 detik`)
+                        }
+                        }
+                        break
                 case 'sticker':
 			    case 'stiker':
 			    case 's':
@@ -2931,6 +3250,7 @@ penggunaan : ${prefix + command } wa 🗿`)
                    break
                    }
                    break
+               
                 case 'ttp':
                 case 'ttp2':
                 case 'ttp3':
@@ -3345,7 +3665,7 @@ List Surah:
                     ini_txt += `Ayat : ${res.result.ayat}\n`
                     ini_txt += `Isi : ${res.result.isi}\n\n`
                     ini_txt += `Link : ${res.result.link}\n`
-                    sendMediaURL(from, res.result.img, ini_txt, msg)
+                    sendMediaURL(from, res.result.img, ini_txt, mek)
                     limitAdd(sender, limit)
                      })
                    .catch((err) => {
@@ -3412,10 +3732,21 @@ List Surah:
 		                 if (budy.includes(`Assalamualaikum`)) {
                          reply(`Waalaikumsalam`)
                          }
-          }  
-    } catch (err) {
-        console.log(color('[ERROR]', 'red'), err)
-    }
-   }) 
-}
+                         }  
+        } catch (err) {
+        err = String(err)
+   	if (!err.includes("this.isZero")) {
+       if (!err.includes("Cannot read property 'conversation' of null")) {
+       if (!err.includes("Cannot read property 'contextInfo' of undefined")) {
+       if (!err.includes("Cannot set property 'mtype' of undefined")) {
+       if (!err.includes("jid is not defined")) {
+       console.log(color('[ERROR]', 'red'), err)
+       }
+       }
+       }
+       }
+       }
+       }
+       }) 
+       }
 starts()
